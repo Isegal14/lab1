@@ -1,1 +1,46 @@
+name: Cross-platform OS test
 
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test-os:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+          - macos-latest
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Run main.py
+        run: python main.py
+
+      - name: Verify generated JSON
+        run: python -c "import json; from pathlib import Path; p=Path('os_report.json'); assert p.is_file(), 'os_report.json was not created'; data=json.loads(p.read_text(encoding='utf-8')); assert all(k in data for k in ('os', 'environment', 'network')); print('JSON report is valid')"
+
+      - name: Upload system configuration
+        uses: actions/upload-artifact@v4
+        with:
+          name: os-report-${{ matrix.os }}
+          path: os_report.json
+          if-no-files-found: error
