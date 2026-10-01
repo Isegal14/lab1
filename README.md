@@ -53,4 +53,4 @@ Workflow автоматически запускает программу на �
 
 ### Windows
 
-![Результат работы на Windows]()
+![Результат работы на Windows](pictures/windows_res.jpg)
