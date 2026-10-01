@@ -33,14 +33,6 @@
 - UID процесса (`process_uid`);
 - IP-адрес, полученный при разрешении имени хоста (`hostname_resolved_ip`).
 
-## GitHub Actions
-
-Workflow автоматически запускает программу на трёх операционных системах:
-
-- Ubuntu;
-- Windows;
-- macOS.
-
 ## Результаты выполнения
 
 ### Windows
